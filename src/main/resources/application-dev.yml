@@ -1,0 +1,59 @@
+server:
+  # 项目端口
+  port: 8001
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/init?useUnicode=true&useSSL=false&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+#    # 修改数据库连接池为druid
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    # 以下为druid数据源专有配置
+#    druid:
+#      # 初始连接数
+#      initial-size: 5
+#      # 最小连接池数量
+#      min-idle: 10
+#      # 最大连接池数量
+#      max-active: 20
+#      # 配置获取连接等待超时的时间,时间单位都是毫秒ms
+#      max-wait: 60000
+#      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+#      time-between-eviction-runs-millis: 60000
+#      #配置一个连接在池中最小生存的时间，单位是毫秒
+#      min-evictable-idle-time-millis: 300000
+#      # 配置一个连接在池中最大生存的时间，单位是毫秒
+#      maxEvictableIdleTimeMillis: 900000
+#      # 配置检测连接是否有效
+#      validation-query: SELECT 1 FROM DUAL
+#      test-while-idle: true
+#      test-on-borrow: false
+#      test-on-return: false
+#      pool-prepared-statements: true
+#      #配置监控统计拦截的filters，stat:监控统计、slf4j：日志记录、wall：防御sql注入
+#      filters: stat,wall,slf4j
+#      max-pool-prepared-statement-per-connection-size: 20
+#      use-global-data-source-stat: true
+#      #通过connectProperties属性来打开mergeSql功能；慢SQL记录
+#      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+#      #配置监控服务器
+#      stat-view-servlet:
+#        #1.1.10以后的版本需要指定为true 不然默认是关闭的就会出现404
+#        enabled: true
+#        #是否可以重置
+#        reset-enable: true
+#        url-pattern: /druid/*
+#        login-username: admin
+#        login-password: 123456
+#        #添加IP白名单
+#        #allow: 127.0.0.1,192.168.1.101
+#        #添加IP黑名单，当白名单和黑名单重复时，黑名单优先级更高
+#        #deny: 127.0.0.1,192.168.1.101
+#      web-stat-filter:
+#        enabled: true
+#        #添加过滤规则
+#        url-pattern: /*
+#        #忽略过滤格式
+#        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
