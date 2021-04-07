@@ -1,5 +1,6 @@
 package com.example.init.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -21,16 +22,18 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 @EnableSwagger2WebMvc
 @Profile({"dev", "test"})
 public class Knife4jConfiguration {
+    @Autowired
+    private SystemConfig systemConfig;
 
     @Bean(value = "defaultApi")
     public Docket defaultApi() {
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("标题")
+                        .title(systemConfig.getName())
                         .description("描述")
                         .termsOfServiceUrl("服务条款URL")
-                        .contact(new Contact("作者", "主页", "邮箱"))
-                        .version("1.0版本")
+                        .contact(new Contact(systemConfig.getDeveloper(), "主页", "邮箱"))
+                        .version(systemConfig.getVersion())
                         .build())
                 //分组名称
                 .groupName("组1")

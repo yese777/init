@@ -1,15 +1,11 @@
 # 项目相关配置
 system:
   # 项目名称
-  name: initializr
+  name: init
   # 开发者
   developer: 张庆福
   # 版本
   version: 0.0.1
-  # 版权年份
-  copyrightYear: 2020
-  # 获取地址开关
-  addressEnabled: true
 
 server:
   servlet:
@@ -54,4 +50,6 @@ mybatis-plus:
       # 逻辑已删除值(默认为 1)
       logic-delete-value: 1
 
-
+knife4j:
+  # 开启增强功能
+  enable: true
