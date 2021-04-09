@@ -9,6 +9,7 @@ import com.example.init.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -55,7 +56,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * post方式提交json数据,参数校验失败后
+     * 参数校验失败(POST)
      * @param e MethodArgumentNotValidException
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -65,12 +66,22 @@ public class GlobalExceptionHandler {
         // 将所有的错误提示使用";"拼接起来并返回
         StringJoiner sj = new StringJoiner(";");
         e.getBindingResult().getFieldErrors().forEach(x -> sj.add(x.getDefaultMessage()));
-        log.error("url:[{}]post请求参数校验失败:{}", url, sj.toString());
-        return R.restResult(sj.toString(), ResultCodeEnum.PARAMETER_VALIDATE_FAIL);
+        log.error("url:【{}】POST请求参数校验失败:【{}】", url, sj.toString());
+        return R.failed(new IErrorCode() {
+            @Override
+            public long getCode() {
+                return ResultCodeEnum.PARAMETER_VALIDATE_FAIL.getCode();
+            }
+
+            @Override
+            public String getMsg() {
+                return sj.toString();
+            }
+        });
     }
 
     /**
-     * get方式提交参数,参数校验失败后
+     * 参数校验失败(GET)
      * @param e ConstraintViolationException
      */
     @ExceptionHandler(ConstraintViolationException.class)
@@ -79,8 +90,43 @@ public class GlobalExceptionHandler {
         String url = request.getRequestURI();
         StringJoiner sj = new StringJoiner(";");
         e.getConstraintViolations().forEach(x -> sj.add(x.getMessage()));
-        log.error("url:[{}]get请求参数校验失败:{}", url, sj.toString());
-        return R.restResult(sj.toString(), ResultCodeEnum.PARAMETER_VALIDATE_FAIL);
+        log.error("url:【{}】GET请求参数校验失败:【{}】", url, sj.toString());
+        return R.failed(new IErrorCode() {
+            @Override
+            public long getCode() {
+                return ResultCodeEnum.PARAMETER_VALIDATE_FAIL.getCode();
+            }
+
+            @Override
+            public String getMsg() {
+                return sj.toString();
+            }
+        });
+    }
+
+    /**
+     * 参数绑定异常
+     * @param e BindException
+     */
+    @ExceptionHandler(BindException.class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public R<?> handleBindException(BindException e, HttpServletRequest request) {
+        String url = request.getRequestURI();
+        StringJoiner sj = new StringJoiner(";");
+        e.getBindingResult().getFieldErrors().forEach(x -> sj.add(x.getDefaultMessage()));
+        log.error("url:【{}】参数校验失败:【{}】", url, sj.toString());
+
+        return R.failed(new IErrorCode() {
+            @Override
+            public long getCode() {
+                return ResultCodeEnum.PARAMETER_VALIDATE_FAIL.getCode();
+            }
+
+            @Override
+            public String getMsg() {
+                return sj.toString();
+            }
+        });
     }
 
     /**
