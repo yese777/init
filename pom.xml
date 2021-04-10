@@ -22,6 +22,8 @@
         <hutool.version>5.6.2</hutool.version>
         <fastjson.version>1.2.76</fastjson.version>
         <druid.version>1.2.5</druid.version>
+        <jwt.version>0.9.1</jwt.version>
+        <bitwalker.version>1.21</bitwalker.version>
 
 
     </properties>
@@ -146,6 +148,16 @@
             <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+        </dependency>
+
 
     </dependencies>
 
@@ -180,6 +192,19 @@
                 <version>${druid.version}</version>
             </dependency>
 
+            <!--Token生成与解析-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+
+            <!-- 解析客户端操作系统、浏览器等 -->
+            <dependency>
+                <groupId>eu.bitwalker</groupId>
+                <artifactId>UserAgentUtils</artifactId>
+                <version>${bitwalker.version}</version>
+            </dependency>
 
 
         </dependencies>

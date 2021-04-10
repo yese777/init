@@ -2,6 +2,9 @@ package com.example.init.vo;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 /**
  * 测试knife4j的忽略参数功能
  *
@@ -10,6 +13,8 @@ import lombok.Data;
  */
 @Data
 public class B {
+    @NotNull(message = "id不为空")
     private Integer id;
+    @NotEmpty(message = "name不为空")
     private String name;
 }
