@@ -2,11 +2,13 @@ package com.example.init.service;
 
 
 import cn.hutool.core.util.ObjectUtil;
-import com.example.init.vo.LoginUser;
+import cn.hutool.crypto.SecureUtil;
 import com.example.init.entity.SysUser;
 import com.example.init.enums.UserStatusEnum;
 import com.example.init.exception.BusinessException;
 import com.example.init.utils.RedisCache;
+import com.example.init.utils.SecurityUtils;
+import com.example.init.vo.LoginUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,7 +46,7 @@ public class SysLoginService {
 
         SysUser sysUser = new SysUser();
         sysUser.setUserName("admin");
-        sysUser.setPassword("123");
+        sysUser.setPassword(SecureUtil.md5("123456"));
 
         // 2021/4/6  登录验证去除验证码校验
         // String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
@@ -75,8 +77,7 @@ public class SysLoginService {
             log.info("登录用户：{} 已被停用.", username);
             // AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, "用户已停用"));
             throw new BusinessException("对不起，您的账号：" + username + " 已停用");
-        } else if (!password.equals(sysUser.getPassword())) {
-            // TODO: 2021/4/11 校验验证码
+        } else if (!SecurityUtils.matchesPassword(password, sysUser.getPassword())) {
             // 密码错误
             log.info("登录用户：{} 密码错误.", username);
             // AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match")));

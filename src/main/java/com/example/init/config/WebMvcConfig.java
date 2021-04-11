@@ -2,7 +2,11 @@ package com.example.init.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -21,6 +25,37 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 // 跨域允许时间
                 .maxAge(3600);
+    }
+
+    // 注册登录拦截器
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        /**
+         * 注册登录拦截器
+         * addPathPatterns:/**:拦截所有请求
+         * excludePathPatterns:排除哪些请求(登录不能拦截;静态资源文件不能拦截，否则样式显示不出来)
+         *
+         */
+
+        // 不拦截的路径
+        List<String> excludePath = new ArrayList<>();
+        excludePath.add("/login");
+        excludePath.add("/asserts/**");
+        excludePath.add("/webjars/**");
+        excludePath.add("/doc.html");
+        excludePath.add("/swagger-ui.html");
+        excludePath.add("/profile/**");
+        excludePath.add("/common/download**");
+        excludePath.add("/common/download/resource**");
+        excludePath.add("/swagger-ui.html");
+        excludePath.add("/swagger-resources/**");
+        excludePath.add("/webjars/**");
+        excludePath.add("/*/api-docs");
+        excludePath.add("/druid/**");
+        excludePath.add("/error");
+
+        registry.addInterceptor(new LoginHandlerInterceptor())
+                .addPathPatterns("/**").excludePathPatterns(excludePath);
     }
 
 }

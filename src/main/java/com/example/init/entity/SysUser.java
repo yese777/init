@@ -58,8 +58,8 @@ public class SysUser implements Serializable {
     private String avatar;
 
     @ApiModelProperty("密码")
-    @JsonIgnore
     @JsonProperty
+    @JsonIgnore
     private String password;
 
     @ApiModelProperty("盐加密")

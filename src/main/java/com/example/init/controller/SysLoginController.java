@@ -1,14 +1,23 @@
 package com.example.init.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.api.R;
-import com.example.init.vo.LoginBody;
+import com.example.init.entity.SysUser;
 import com.example.init.service.SysLoginService;
+import com.example.init.service.TokenService;
+import com.example.init.utils.SecurityUtils;
+import com.example.init.utils.ServletUtils;
+import com.example.init.vo.LoginBody;
+import com.example.init.vo.LoginUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Set;
 
 /**
  * 登录
@@ -27,9 +36,9 @@ public class SysLoginController {
     //
     // @Autowired
     // private SysPermissionService permissionService;
-    //
-    // @Autowired
-    // private TokenService tokenService;
+
+    @Autowired
+    private TokenService tokenService;
 
     @ApiOperation("登录方法")
     @PostMapping("/login")
@@ -40,42 +49,36 @@ public class SysLoginController {
     }
 
 
-    /**
-     * 用户退出
-     */
-/*    @GetMapping("/logout")
+    @ApiOperation("用户退出")
+    @GetMapping("/logout")
     public R<String> logout() {
         LoginUser loginUser = SecurityUtils.getLoginUser();
-        if (StringUtils.isNotNull(loginUser)) {
-            String userName = loginUser.getUsername();
+        if (ObjectUtil.isNotNull(loginUser)) {
+            String userName = loginUser.getUser().getUserName();
             // 删除用户缓存记录
             tokenService.delLoginUser(loginUser.getToken());
-            // 记录用户退出日志
-            AsyncManager.me().execute(AsyncFactory.recordLogininfor(userName, Constants.LOGOUT, "退出成功"));
+            // TODO: 2021/4/11  记录用户退出日志
+            // AsyncManager.me().execute(AsyncFactory.recordLogininfor(userName, Constants.LOGOUT, "退出成功"));
         }
 
         return R.ok("退出成功");
-    }*/
+    }
 
-    /**
-     * 获取用户信息
-     *
-     * @return 用户信息
-     */
-/*    @GetMapping("getInfo")
-    public AjaxResult getInfo() {
+    @ApiOperation("获取用户信息")
+    @GetMapping("getInfo")
+    public R<SysUser> getInfo() {
         LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
         SysUser user = loginUser.getUser();
         // 角色集合
-        Set<String> roles = permissionService.getRolePermission(user);
+        // Set<String> roles = permissionService.getRolePermission(user);
         // 权限集合
-        Set<String> permissions = permissionService.getMenuPermission(user);
-        AjaxResult ajax = AjaxResult.success();
-        ajax.put("user", user);
-        ajax.put("roles", roles);
-        ajax.put("permissions", permissions);
-        return ajax;
-    }*/
+        // Set<String> permissions = permissionService.getMenuPermission(user);
+        // AjaxResult ajax = AjaxResult.success();
+        // ajax.put("user", user);
+        // ajax.put("roles", roles);
+        // ajax.put("permissions", permissions);
+        return R.ok(user);
+    }
 
     /**
      * 获取路由信息
