@@ -39,7 +39,7 @@ public class SysLoginService {
      * @return 结果
      */
     public String login(String username, String password, String code, String uuid) {
-        // 根据用户名查找用户
+        // TODO: 2021/4/11  根据用户名查找用户
         // SysUser sysUser = userService.selectUserByUserName(username);
 
         SysUser sysUser = new SysUser();
@@ -76,6 +76,7 @@ public class SysLoginService {
             // AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, "用户已停用"));
             throw new BusinessException("对不起，您的账号：" + username + " 已停用");
         } else if (!password.equals(sysUser.getPassword())) {
+            // TODO: 2021/4/11 校验验证码
             // 密码错误
             log.info("登录用户：{} 密码错误.", username);
             // AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match")));

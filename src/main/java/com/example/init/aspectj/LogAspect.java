@@ -142,7 +142,7 @@ public class LogAspect {
             getControllerMethodDescription(joinPoint, controllerLog, sysLog);
             log.info("sysLog:【{}】", sysLog);
 
-            // 保存数据库
+            // TODO: 2021/4/11 日志入库
             // AsyncManager.me().execute(AsyncFactory.recordOper(sysLog));
         } catch (Exception exception) {
             log.error("controller层日志记录异常", exception);

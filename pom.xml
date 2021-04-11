@@ -12,7 +12,7 @@
     <artifactId>init</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>init</name>
-    <description>项目初始化</description>
+    <description>单体应用项目初始化</description>
     <properties>
         <java.version>1.8</java.version>
 
