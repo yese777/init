@@ -3,7 +3,6 @@ package com.example.init.config;
 
 import com.baomidou.mybatisplus.extension.api.IErrorCode;
 import com.baomidou.mybatisplus.extension.api.R;
-import com.example.init.enums.BusinessExceptionMsgEnum;
 import com.example.init.enums.ResultCodeEnum;
 import com.example.init.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +32,6 @@ public class GlobalExceptionHandler {
     /**
      * 自定义业务异常,状态是200,由前端自行处理
      * 使用自定义业务异常时,直接在代码中throw new BusinessException();
-     * 自定义业务异常提示信息建议统一在{@link BusinessExceptionMsgEnum}枚举中定义
      * @param e {@link BusinessException}
      */
     @ExceptionHandler(BusinessException.class)
