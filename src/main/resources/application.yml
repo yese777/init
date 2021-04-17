@@ -28,18 +28,16 @@ spring:
   # jackson时间格式化
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
-    # time-zone: GMT+8
     time-zone: Asia/Shanghai
 
 mybatis-plus:
-  # 指定Mapper.xml文件位置,可以是数组.默认配置为'- classpath*:/mapper/**/*.xml'
-  mapperLocations:
-    - classpath*:/mapper/**/*.xml
+  # 指定Mapper.xml文件位置,可以是数组
+  mapperLocations: classpath*:/mapper/**/*.xml
   configuration:
     # sql输出设置
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   # 别名包扫描路径，通过该属性可以给包中的类注册别名，注册后在 Mapper 对应的 XML 文件中可以直接使用类名，而不用带包名
-  typeAliasesPackage: com.example.init.entity
+  typeAliasesPackage: com.example.*.entity
   global-config:
     db-config:
       # 配置逻辑删除相关
