@@ -54,6 +54,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         excludePath.add("/druid/**");
         excludePath.add("/error");
 
+        // websocket页面
+        excludePath.add("/client.html");
+
         registry.addInterceptor(new LoginHandlerInterceptor())
                 .addPathPatterns("/**").excludePathPatterns(excludePath);
     }
