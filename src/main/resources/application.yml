@@ -60,3 +60,7 @@ token:
   secret: abcdefghijklmnopqrstuvwxyz
   # 令牌有效期（默认30分钟）
   expireTime: 30
+
+# 获取pom中的值
+app:
+  version: @project.version@
