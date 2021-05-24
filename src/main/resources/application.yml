@@ -10,7 +10,7 @@ system:
 server:
   servlet:
     # 项目路径前缀
-    context-path: /@artifactId@
+    context-path: /api
 spring:
   profiles:
     # 指定运行环境
