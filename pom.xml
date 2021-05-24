@@ -22,13 +22,13 @@
         <java.version>1.8</java.version>
         <mybatis-plus.version>3.4.2</mybatis-plus.version>
         <knife4j.version>2.0.8</knife4j.version>
-        <hutool.version>5.6.2</hutool.version>
+        <hutool.version>5.6.5</hutool.version>
         <fastjson.version>1.2.76</fastjson.version>
-        <druid.version>1.2.5</druid.version>
+        <druid.version>1.2.6</druid.version>
         <jwt.version>0.9.1</jwt.version>
         <bitwalker.version>1.21</bitwalker.version>
         <commons-io.version>2.8.0</commons-io.version>
-        <easyexcel.version>2.2.8</easyexcel.version>
+        <easyexcel.version>2.2.10</easyexcel.version>
     </properties>
 
     <!--集中管理依赖的版本号,并没有真正引入依赖,需要在dependencies中引入坐标-->
