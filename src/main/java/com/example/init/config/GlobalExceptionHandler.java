@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -18,8 +19,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 /**
  * @author 张庆福
@@ -62,9 +64,10 @@ public class GlobalExceptionHandler {
     public R<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
         String url = request.getRequestURI();
         // 将所有的错误提示使用";"拼接起来并返回
-        StringJoiner sj = new StringJoiner(";");
-        e.getBindingResult().getFieldErrors().forEach(x -> sj.add(x.getDefaultMessage()));
-        log.error("url:【{}】POST请求参数校验失败:【{}】", url, sj.toString());
+        String errorMsg = e.getBindingResult().getFieldErrors().stream().map(FieldError::getDefaultMessage).collect(Collectors.joining(";"));
+        // 当校验注解不自定义文字时,自动使用 字段+默认提示 作为提示文字
+        // String errorMsg = e.getBindingResult().getFieldErrors().stream().map(a -> a.getField() + a.getDefaultMessage()).collect(Collectors.joining(";"));
+        log.error("url:【{}】POST请求参数校验失败:【{}】", url, errorMsg);
         return R.failed(new IErrorCode() {
             @Override
             public long getCode() {
@@ -73,7 +76,7 @@ public class GlobalExceptionHandler {
 
             @Override
             public String getMsg() {
-                return sj.toString();
+                return errorMsg;
             }
         });
     }
@@ -86,9 +89,8 @@ public class GlobalExceptionHandler {
     @ResponseStatus(value = HttpStatus.OK)
     public R<?> handleConstraintViolationException(ConstraintViolationException e, HttpServletRequest request) {
         String url = request.getRequestURI();
-        StringJoiner sj = new StringJoiner(";");
-        e.getConstraintViolations().forEach(x -> sj.add(x.getMessage()));
-        log.error("url:【{}】GET请求参数校验失败:【{}】", url, sj.toString());
+        String errorMsg = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(";"));
+        log.error("url:【{}】GET请求参数校验失败:【{}】", url, errorMsg);
         return R.failed(new IErrorCode() {
             @Override
             public long getCode() {
@@ -97,7 +99,7 @@ public class GlobalExceptionHandler {
 
             @Override
             public String getMsg() {
-                return sj.toString();
+                return errorMsg;
             }
         });
     }
@@ -110,9 +112,8 @@ public class GlobalExceptionHandler {
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public R<?> handleBindException(BindException e, HttpServletRequest request) {
         String url = request.getRequestURI();
-        StringJoiner sj = new StringJoiner(";");
-        e.getBindingResult().getFieldErrors().forEach(x -> sj.add(x.getDefaultMessage()));
-        log.error("url:【{}】参数校验失败:【{}】", url, sj.toString());
+        String errorMsg = e.getBindingResult().getFieldErrors().stream().map(FieldError::getDefaultMessage).collect(Collectors.joining(";"));
+        log.error("url:【{}】参数校验失败:【{}】", url, errorMsg);
 
         return R.failed(new IErrorCode() {
             @Override
@@ -122,7 +123,7 @@ public class GlobalExceptionHandler {
 
             @Override
             public String getMsg() {
-                return sj.toString();
+                return errorMsg;
             }
         });
     }

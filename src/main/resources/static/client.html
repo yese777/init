@@ -57,7 +57,7 @@
     let ws = null;
 
     function connect() {
-        let targetUri = "http://localhost:8001/init/connect";
+        let targetUri = "http://localhost:8001/api/connect";
         ws = new SockJS(targetUri);
 
         // 和服务端建立连接后的回调方法
