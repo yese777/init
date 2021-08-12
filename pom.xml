@@ -29,6 +29,7 @@
         <bitwalker.version>1.21</bitwalker.version>
         <commons-io.version>2.8.0</commons-io.version>
         <easyexcel.version>2.2.10</easyexcel.version>
+        <poi.version>4.1.2</poi.version>
     </properties>
 
     <!--集中管理依赖的版本号,并没有真正引入依赖,需要在dependencies中引入坐标-->
@@ -78,6 +79,11 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>
                 <version>${easyexcel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -203,7 +209,10 @@
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+        </dependency>
 
         <!--测试-->
         <dependency>

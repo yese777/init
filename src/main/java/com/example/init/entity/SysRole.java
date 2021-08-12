@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * 角色表
@@ -18,7 +19,7 @@ import javax.validation.constraints.Size;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SysRole {
+public class SysRole implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
